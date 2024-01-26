@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # SQLite database
+  sqlite-db:
+    image: sqlite:latest
+    volumes:
+      - ./bdd:/app/bdd
+    networks:
+      - app-network
+
+  # PhpMyAdmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+    ports:
+      - "8080:80"
+    depends_on:
+      - sqlite-db
+    networks:
+      - app-network
+
+  # Backend in NodeJS
+  backend:
+    image: node:latest
+    working_dir: /app/backend
+    volumes:
+      - ./backend:/app/backend
+      - ./bdd:/app/bdd
+    command: >
+      bash -c "
+        cp .env.sample .env &&
+        npm install &&
+        npm start
+      "
+    depends_on:
+      - sqlite-db
+    networks:
+      - app-network
+
+  # Frontend in ReactJS
+  frontend:
+    image: node:latest
+    working_dir: /app/frontend
+    volumes:
+      - ./frontend:/app/frontend
+    command: >
+      bash -c "
+        npm install &&
+        npm start
+      "
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
