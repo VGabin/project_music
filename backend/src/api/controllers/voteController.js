@@ -29,6 +29,12 @@ exports.createAVote = async (req, res) => {
     if (!rating || !musicId|| !userId) {
         return res.status(400).json({ message: "Les paramètres 'rating', 'userId' et 'musicId' sont obligatoires." });
     }
+    
+    const alreadyVoted = await Vote.find({ user: userId, music: musicId });
+
+    if (alreadyVoted.length > 0) {
+        return res.status(400).json({ message: "Vous avez déjà voté" });
+    }
 
     const newVote = new Vote({
         rating,
