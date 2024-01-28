@@ -1,58 +1,38 @@
-version: '3.8'
+version : '3.8'
 
 services:
-  # SQLite database
-  sqlite-db:
-    image: sqlite:latest
-    volumes:
-      - ./bdd:/app/bdd
-    networks:
-      - app-network
-
-  # PhpMyAdmin
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      - PMA_ARBITRARY=1
+  node-back:
+    container_name: projet-music-backend
+    image: node:20.9.0-slim
+    working_dir: /home/node/app
+    env_file:
+      - .env
+    command:
+      - /bin/sh
+      - '-c'
+      - 'npm install && npm start'
     ports:
-      - "8080:80"
-    depends_on:
-      - sqlite-db
-    networks:
-      - app-network
-
-  # Backend in NodeJS
-  backend:
-    image: node:latest
-    working_dir: /app/backend
+      - '3000:3000'
     volumes:
-      - ./backend:/app/backend
-      - ./bdd:/app/bdd
-    command: >
-      bash -c "
-        cp .env.sample .env &&
-        npm install &&
-        npm start
-      "
+      - './backend/src:/home/node/app'
     depends_on:
-      - sqlite-db
-    networks:
-      - app-network
-
-  # Frontend in ReactJS
-  frontend:
-    image: node:latest
-    working_dir: /app/frontend
+      - mongo
+  mongo:
+    container_name: mongo-api-db
+    image: mongo
+    ports:
+      - "27017:27017"  
+  node-front:
+    container_name: projet-music-frontend
+    image: node:20.9.0-slim
+    working_dir: /home/node/app
+    env_file:
+      - .env
+    command:
+      - /bin/sh
+      - '-c'
+      - 'npm install && npm start'
+    ports:
+      - '3001:3000'
     volumes:
-      - ./frontend:/app/frontend
-    command: >
-      bash -c "
-        npm install &&
-        npm start
-      "
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
+      - './frontend:/home/node/app'
