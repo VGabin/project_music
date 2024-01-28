@@ -35,4 +35,7 @@ server.use(express.urlencoded());
 server.use(express.json());
 server.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecification));
 
+const userRoute = require('./api/routes/userRoute');
+userRoute(server);
+
 server.listen(port, hostname);
