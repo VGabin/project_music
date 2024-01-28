@@ -1,0 +1,38 @@
+version : '3.8'
+
+services:
+  node-back:
+    container_name: projet-music-backend
+    image: node:20.9.0-slim
+    working_dir: /home/node/app
+    env_file:
+      - .env
+    command:
+      - /bin/sh
+      - '-c'
+      - 'npm install && npm start'
+    ports:
+      - '3000:3000'
+    volumes:
+      - './backend/src:/home/node/app'
+    depends_on:
+      - mongo
+  mongo:
+    container_name: mongo-api-db
+    image: mongo
+    ports:
+      - "27017:27017"  
+  node-front:
+    container_name: projet-music-frontend
+    image: node:20.9.0-slim
+    working_dir: /home/node/app
+    env_file:
+      - .env
+    command:
+      - /bin/sh
+      - '-c'
+      - 'npm install && npm start'
+    ports:
+      - '3001:3000'
+    volumes:
+      - './frontend:/home/node/app'
