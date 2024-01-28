@@ -22,16 +22,18 @@ exports.listAllMusics = async (req, res) => {
 }
 
 exports.createAMusic = async (req, res) => {
-    const link = req.body.link;
+    const {link, title, cover} = req.body;
     const sessionId = req.params.sessionId;
 
     // Vérifier si les paramètres requis sont présents
     if (!link || !sessionId) {
-        return res.status(400).json({ message: "Les paramètres 'link' et 'sessionId' sont obligatoires." });
+        return res.status(400).json({ message: "Les paramètres 'link', 'title' et 'sessionId' sont obligatoires." });
     }
 
     const newMusic = new Music({
         link,
+        title,
+        cover,
         session: sessionId
     });
 

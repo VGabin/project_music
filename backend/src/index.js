@@ -35,6 +35,8 @@ server.use(express.urlencoded());
 server.use(express.json());
 server.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecification));
 
+const voteRoute = require('./api/routes/voteRoute');
+voteRoute(server);
 const musicRoute = require('./api/routes/musicRoute');
 musicRoute(server);
 const sessionRoute = require('./api/routes/sessionRoute');
