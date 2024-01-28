@@ -1,13 +1,5 @@
 const SessionController = require('../controllers/sessionController');
 const Session = require('../models/sessionModel');
-const textApiProvider = require('../providers/textApiProvider');
-
-beforeEach(() => {
-    jest.mock('../models/sessionModel');
-    jest.mock('../providers/textApiProvider', () => ({
-        getRandomText: jest.fn(() => Promise.resolve('Texte aléatoire simulé')),
-    }));
-});
 
 describe('listAllSessions', () => {
     test('devrait renvoyer une liste de publications avec le statut 200 et non nulle', async () => {
