@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import './LoginForm.css';
 
 const LoginForm = ({ onLoginSuccess }) => {
     const [email, setEmail] = useState('');
@@ -9,34 +10,35 @@ const LoginForm = ({ onLoginSuccess }) => {
     const handlePasswordChange = (e) => setPassword(e.target.value);
 
     const loginUser = async (email, password) => {
-        axios.post('http://localhost:3001/users/login', {
-            email: email,
-            password: password
-        })
-        .then(function(response) {
+        try {
+            const response = await axios.post('http://localhost:3001/users/login', {
+                email: email,
+                password: password
+            });
+
             const token = response.data.token;
             localStorage.setItem('token', token);
 
             console.log(token);
             onLoginSuccess();
-        })
-        .catch(function(error) {
+        } catch (error) {
             console.error('Erreur lors de la connexion :', error.message);
-        });
+        }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Appel de la fonction pour envoyer les données à l'API
         loginUser(email, password);
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>Email: <input type="text" value={email} onChange={handleEmailChange} /></label>
-            <label>Password: <input type="password" value={password} onChange={handlePasswordChange} /></label>
-            <button type="submit">Login</button>
-        </form>
+        <div className="login-form-container">
+            <form onSubmit={handleSubmit}>
+                <label>Email: <input type="text" value={email} onChange={handleEmailChange} /></label>
+                <label>Password: <input type="password" value={password} onChange={handlePasswordChange} /></label>
+                <button type="submit">Login</button>
+            </form>
+        </div>
     );
 };
 
