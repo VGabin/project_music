@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+// import logo from './logo.svg';
+// import './App.css';
+import React, { useState } from 'react';
+import LoginForm from './components/Login/LoginForm';
+import CreateSessionForm from './components/Session/CreateForm'
+import GetMusics from './components/Music/GetMusics';
 
-function App() {
+const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {isLoggedIn ? (
+        <div>
+        <CreateSessionForm />
+        <GetMusics />
+        </div>
+      ) : (
+        <LoginForm onLoginSuccess={handleLoginSuccess} />
+      )}
     </div>
   );
-}
+};
 
 export default App;
