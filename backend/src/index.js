@@ -1,5 +1,6 @@
 const express = require('express');
 const server = express();
+const cors = require('cors');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
@@ -27,6 +28,14 @@ const swaggerSpecification = swaggerJsdoc(options);
 
 const hostname = "0.0.0.0";
 const port = 3000;
+
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true, // Autorise l'envoi de cookies
+};
+
+// Utilisez le middleware CORS avec les options
+server.use(cors(corsOptions));
 
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://mongo/apinode');

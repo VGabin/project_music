@@ -1,0 +1,38 @@
+/* CreateForm.css */
+
+.create-form-container {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .create-form-container h2 {
+    margin-bottom: 10px;
+  }
+  
+  .create-form-container label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .create-form-container input,
+  .create-form-container textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .create-form-container button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .create-form-container button:hover {
+    background-color: #45a049;
+  }
+  

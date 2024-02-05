@@ -12,11 +12,12 @@ services:
       - '-c'
       - 'npm install && npm start'
     ports:
-      - '3000:3000'
+      - '3001:3000'
     volumes:
       - './backend/src:/home/node/app'
     depends_on:
       - mongo
+
   mongo:
     container_name: mongo-api-db
     image: mongo
@@ -33,6 +34,6 @@ services:
       - '-c'
       - 'npm install && npm start'
     ports:
-      - '3001:3000'
+      - '3000:3000'
     volumes:
       - './frontend:/home/node/app'
