@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 
-const LoginForm = () => {
+const LoginForm = ({ onLoginSuccess }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -18,6 +18,7 @@ const LoginForm = () => {
             localStorage.setItem('token', token);
 
             console.log(token);
+            onLoginSuccess();
         })
         .catch(function(error) {
             console.error('Erreur lors de la connexion :', error.message);

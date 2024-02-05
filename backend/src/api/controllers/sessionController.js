@@ -28,16 +28,6 @@ exports.createASession = async (req, res) => {
         console.log(error);
         res.status(401).json({ message: "Erreur serveur" });
     }
-
-    // try {
-    //     const session = await newSession.save();
-    //     res.status(201);
-    //     res.json(session);
-    // } catch (error) {
-    //     res.status(500);
-    //     console.log(error);
-    //     res.json({ message: "Erreur serveur" });
-    // }
 }
 
 
