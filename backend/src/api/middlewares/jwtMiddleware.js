@@ -6,33 +6,24 @@ exports.verifyToken = async (req, res, next) => {
     try {
         const token = req.headers["authorization"];
 
-        if(token !== undefined) {
-            const payload = await new Promise((resolve, reject) => {
-                jwt.verify(token, jwtKey, (error, decoded) => {
-                    if(error) {
-                        reject(error)
-                    } else {
-                        resolve(decoded);
-                    }
-                });
-            });
-
+        if (token) {
+            const payload = await jwt.verify(token, jwtKey);
             req.user = payload;
             next();
         } else {
-            res.status(403).json({message: "Accès interdit: token manquant"});
+            res.status(403).json({ message: "Accès interdit: token manquant" });
         }
     } catch (error) {
-        console.log(error);
-        res.status(403).json({message: "Accès interdit: mauvais token"});
+        console.error(error);
+        res.status(403).json({ message: "Accès interdit: mauvais token" });
     }
-}
+};
 
-exports.isAdmin = async (req, res, next) => {
+exports.isAdmin = (req, res, next) => {
     const userRole = req.user.role;
     if (userRole === "admin") {
         next();
     } else {
-        res.status(403).json({message: "Accès interdit: permissions refusées"});
+        res.status(403).json({ message: "Accès interdit: permissions refusées" });
     }
 };
